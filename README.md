@@ -27,3 +27,16 @@ export default {
 npm install
 npm start
 ```
+
+## To run the client side execute these commands in client directory:
+For dev:
+```
+npm install
+npm run dev
+```
+For build:
+```
+npm install
+npm run build
+npm start
+```
