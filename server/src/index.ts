@@ -10,8 +10,18 @@ const port = config.get<number>("port");
 const host = config.get<string>("host");
 const clientPort = config.get<number>("clientPort");
 
+declare module 'express-serve-static-core' {
+  interface Request {
+    user: string
+  }
+  interface Response {
+    user: string
+  }
+}
+
 const app = express();
-app.use(cors({ credentials: true, origin: `http://${host}:${clientPort}` }));
+// app.use(cors({ credentials: true, origin: `http://${host}:${clientPort}` }));
+app.use(cors({credentials: true}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
