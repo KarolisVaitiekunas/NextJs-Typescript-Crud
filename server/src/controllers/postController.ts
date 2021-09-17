@@ -35,8 +35,6 @@ const createPost = async (req: Request, res: Response) => {
 };
 
 const getPosts = async (req: Request, res: Response) => {
-  // const user = await UserModel.findOne({ username: req.user }).populate("posts");
-  // res.send(user.posts);
   try {
     const posts = await PostModel.find({}).populate("postedBy");
     res.status(201).json({
