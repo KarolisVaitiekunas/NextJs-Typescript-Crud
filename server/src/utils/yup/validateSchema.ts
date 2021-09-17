@@ -13,7 +13,7 @@ const validate = (schema: OptionalObjectSchema<any>) => async (req: Request, res
     });
     return next();
   } catch (err) {
-    return res.status(500).json({ success: false, message: err.message });
+    return res.status(403).json({ success: false, message: err.message });
   }
 };
 
