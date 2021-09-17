@@ -10,12 +10,21 @@ const port = config.get<number>("port");
 const host = config.get<string>("host");
 const clientPort = config.get<number>("clientPort");
 
+<<<<<<< HEAD
 declare module "express-serve-static-core" {
   interface Request {
     user: string;
   }
   interface Response {
     user: string;
+=======
+declare module 'express-serve-static-core' {
+  interface Request {
+    user: string
+  }
+  interface Response {
+    user: string
+>>>>>>> b21b9efb6e8c43572075985562b4878d5befcc41
   }
 }
 
