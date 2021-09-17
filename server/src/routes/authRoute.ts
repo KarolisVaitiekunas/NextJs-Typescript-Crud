@@ -5,7 +5,7 @@ import express from "express";
 const router = express.Router();
 
 import validate from "../utils/yup/validateSchema";
-import { registerSchema, loginSchema } from "../utils/yup/authSchemas";
+import { registerSchema, loginSchema, forgotpasswordSchema, resetpasswordSchema } from "../utils/yup/authSchemas";
 
 import { register, login, forgotpassword, resetpassword, loggedIn, logout } from "../controllers/authController";
 import validateToken from "../middleware/auth";
@@ -14,9 +14,9 @@ router.post("/register", validate(registerSchema), register);
 
 router.post("/login", validate(loginSchema), login);
 
-router.post("/forgotpassword", forgotpassword);
+router.post("/forgotpassword", validate(forgotpasswordSchema), forgotpassword);
 
-router.put("/resetpassword/:resetToken", resetpassword);
+router.put("/resetpassword/:resetToken", validate(resetpasswordSchema), resetpassword);
 
 router.get("/loggedIn", validateToken, loggedIn);
 
