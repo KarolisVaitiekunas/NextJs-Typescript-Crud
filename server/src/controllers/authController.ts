@@ -3,11 +3,13 @@ import UserModel from "../models/User";
 import config from "config";
 import crypto from "crypto";
 import sendEmail from "../utils/email";
+import sanitize from "mongo-sanitize";
 
 const port = config.get<number>("port");
 const host = config.get<string>("host");
 
 const register = async (req: Request, res: Response) => {
+  req.body = sanitize(req.body); //prevent nosql injection
   try {
     UserModel.create(req.body);
     res.status(201).json({
