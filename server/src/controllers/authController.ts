@@ -11,7 +11,7 @@ const host = config.get<string>("host");
 const register = async (req: Request, res: Response) => {
   req.body = sanitize(req.body); //prevent nosql injection
   try {
-    const userExist = UserModel.findOne({ username: req.body.username });
+    const userExist = await UserModel.findOne({ username: req.body.username });
     if (userExist) {
       return res.status(403).json({
         success: false,
