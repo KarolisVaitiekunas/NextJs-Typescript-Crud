@@ -12,6 +12,7 @@ export interface IAuthBody {
 export interface IPost {
   title: string;
   body: string;
+  postId?: string;
   postedBy?: {
     posts: Array<IPost>;
     // _id: string;
