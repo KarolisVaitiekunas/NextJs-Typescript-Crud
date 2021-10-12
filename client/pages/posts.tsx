@@ -9,6 +9,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { deletePost, getPosts } from "../api";
 import { IPost, IResponse, IUser } from "../interfaces";
 
@@ -29,6 +30,7 @@ interface Props {
 }
 
 export default function Posts({ postData, user }: Props): ReactElement {
+  const router = useRouter();
   const classes = useStyles();
   return (
     <div>
@@ -50,9 +52,20 @@ export default function Posts({ postData, user }: Props): ReactElement {
                 {post.postedBy ? post.postedBy.username : "anonymous"}
               </Button>
               {user.name === post.postedBy?.username && (
-                <Button size="small" color="secondary" variant="contained" onClick={() => deletePost(post.title)}>
-                  Delete
-                </Button>
+                <div>
+                  <Button size="small" color="secondary" variant="contained" onClick={() => deletePost(post.title)}>
+                    Delete
+                  </Button>
+                  <Button
+                    size="small"
+                    color="primary"
+                    variant="contained"
+                    style={{ marginLeft: "5px" }}
+                    onClick={() => router.push(`/update/${post.postId}`)}
+                  >
+                    Update
+                  </Button>
+                </div>
               )}
             </CardActions>
           </Card>
