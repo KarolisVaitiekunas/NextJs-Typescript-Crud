@@ -11,12 +11,14 @@ import { IAuthBody, IUser } from "../interfaces";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       height: "910px",
       display: "flex",
+      flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
     },
@@ -71,6 +73,7 @@ export default function Login({ verifyLogin, user, validatingUser }: Props): Rea
 
   return (
     <div className={classes.root}>
+      <Typography variant="h5">Create post</Typography>
       <form className={classes.form} onSubmit={formik.handleSubmit}>
         <TextField
           id="email"
@@ -97,7 +100,7 @@ export default function Login({ verifyLogin, user, validatingUser }: Props): Rea
         <Button className={classes.button} variant="contained" color="secondary" onClick={() => router.push("/forgot")}>
           Forgot Password
         </Button>
-        {error && "Failed to log you in, please try again later."}
+        {error && <Typography color="error">Failed to log you in, please try again later.</Typography>}
       </form>
     </div>
   );
