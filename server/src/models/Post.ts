@@ -2,17 +2,10 @@ import mongoose, { Document, PopulatedDoc } from "mongoose";
 import IUser from "./User";
 
 interface IPost extends Document {
-  title: string;
-  body: string;
+  title: String;
+  body: String;
+  postId: String;
   postedBy: PopulatedDoc<typeof IUser & Document>;
-  // postedBy: { type: mongoose.Schema.Types.ObjectId; ref: string };
-
-  // image: {
-  //   filename: string;
-  //   filepath: string;
-  //   mimetype: string;
-  //   size: string;
-  // };
 }
 
 const postSchema = new mongoose.Schema<IPost>({
@@ -25,14 +18,19 @@ const postSchema = new mongoose.Schema<IPost>({
     type: String,
     required: [true, "body is required"],
   },
-  // image: {
-  //   filename: String,
-  //   filepath: String,
-  //   mimetype: String,
-  //   size: String,
-  // },
+
+  postId: {
+    type: String,
+    unique: true,
+  },
+
   postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 const PostModel = mongoose.model<IPost>("Post", postSchema);
+
+// postSchema.pre<IPost>("save", function (next) {
+
+// });
+
 export default PostModel;

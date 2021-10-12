@@ -9,12 +9,13 @@ import { forgotPassword } from "../api";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       height: "910px",
-      display: "flex",
+      flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
     },
@@ -53,6 +54,7 @@ export default function Forgot(): ReactElement {
 
   return (
     <div className={classes.root}>
+      <Typography variant="h5">Forgot password</Typography>
       <form className={classes.form} onSubmit={formik.handleSubmit}>
         <TextField
           id="email"
@@ -66,7 +68,7 @@ export default function Forgot(): ReactElement {
         <Button className={classes.button} type="submit" variant="contained" color="primary">
           Submit
         </Button>
-        {message.active && message.message}
+        {message.active && <Typography color="error">{message.message}</Typography>}
       </form>
     </div>
   );
