@@ -1,6 +1,8 @@
+import { IPost } from "./../../../client/interfaces/index";
 import { Request, Response } from "express";
 import PostModel from "../models/Post";
 import UserModel from "../models/User";
+import { v4 as uuidv4 } from "uuid";
 
 const createPost = async (req: Request, res: Response) => {
   try {
@@ -18,6 +20,7 @@ const createPost = async (req: Request, res: Response) => {
     const user = await UserModel.findOne({ username: req.user });
     user.posts.push(newPost._id);
     newPost.postedBy = user._id;
+    newPost.postId = uuidv4();
 
     await newPost.save();
     await user.save();
@@ -82,4 +85,38 @@ const deletePost = async (req: Request, res: Response) => {
   }
 };
 
-export { createPost, getPosts, deletePost };
+const updatePost = async (req: Request, res: Response) => {
+  try {
+    const postId = req.params.postId;
+    const body = req.body;
+    const postToUpdate = await PostModel.findOne({ postId: postId }).populate("postedBy");
+    console.log(req.user);
+    console.log(postToUpdate.postedBy.username);
+    if (!postToUpdate)
+      return res.status(404).json({
+        success: false,
+        message: "Post doesn't exist",
+      });
+
+    if (req.user === postToUpdate.postedBy.username) {
+      await PostModel.updateOne({ postId: postId }, { title: body.title, body: body.body });
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: "You cannot update a post that was not posted by you.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Post updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export { createPost, getPosts, deletePost, updatePost };
