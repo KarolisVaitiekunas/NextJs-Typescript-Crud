@@ -65,6 +65,17 @@ export const deletePost = async (title: string) => {
   return _data;
 };
 
+export const updatePost = async (data: IPost, postId: string | string[]) => {
+  const response = await fetch(`http://localhost:3001/post/update/${postId}`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  const _data = await response.json();
+  return _data;
+};
+
 export const forgotPassword = async (data: { email: string }): Promise<IResponseForgotPassword> => {
   const response = await fetch("http://localhost:3001/auth/forgotpassword", {
     method: "POST",
