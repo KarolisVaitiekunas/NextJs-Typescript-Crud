@@ -14,7 +14,7 @@ import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      height: "910px",
+      height: "90vh",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",

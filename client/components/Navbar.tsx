@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
       [theme.breakpoints.down("xs")]: {
-        fontSize: "1.5rem",
+        fontSize: "1.2rem",
       },
     },
     button: {
       [theme.breakpoints.down("xs")]: {
-        fontSize: "0.8rem",
+        fontSize: "0.6rem",
       },
     },
     toolbarMargin: {

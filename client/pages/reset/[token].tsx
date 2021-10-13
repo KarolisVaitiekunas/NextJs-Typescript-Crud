@@ -15,7 +15,7 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      height: "910px",
+      height: "90vh",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
