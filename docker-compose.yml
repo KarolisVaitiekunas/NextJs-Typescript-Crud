@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  api:
+    container_name: api-container
+    build: ./server
+    networks:
+      - REE
+    ports:
+      - '3001:3001'
+    depends_on:
+      - mongo
+
+  client:
+    container_name: client-container
+    build: ./client
+    networks:
+      - REE
+    ports:
+      - '3000:3000'
+    depends_on:
+      - api
+  mongo:
+    container_name: mongo-backend
+    image: mongo
+    expose:
+      - '27017'
+    ports:
+      - '27017:27017'
+    volumes:
+      - apiDB:/data/db
+    networks:
+      - REE
+
+volumes:
+  apiDB:
+
+networks:
+  REE:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.69.0.0/16

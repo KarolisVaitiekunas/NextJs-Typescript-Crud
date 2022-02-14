@@ -1,8 +1,7 @@
-import { IPost } from "./../../../client/interfaces/index";
-import { Request, Response } from "express";
-import PostModel from "../models/Post";
-import UserModel from "../models/User";
-import { v4 as uuidv4 } from "uuid";
+import { Request, Response } from 'express';
+import PostModel from '../models/Post';
+import UserModel from '../models/User';
+import { v4 as uuidv4 } from 'uuid';
 
 const createPost = async (req: Request, res: Response) => {
   try {
@@ -11,7 +10,7 @@ const createPost = async (req: Request, res: Response) => {
     if (post) {
       return res.status(409).json({
         success: false,
-        message: "Post with that title already exists.",
+        message: 'Post with that title already exists.',
       });
     }
 
@@ -27,7 +26,7 @@ const createPost = async (req: Request, res: Response) => {
 
     res.status(201).json({
       success: true,
-      message: "Post created successfuly.",
+      message: 'Post created successfuly.',
     });
   } catch (error) {
     res.status(500).json({
@@ -39,10 +38,10 @@ const createPost = async (req: Request, res: Response) => {
 
 const getPosts = async (req: Request, res: Response) => {
   try {
-    const posts = await PostModel.find({}).populate("postedBy");
+    const posts = await PostModel.find({}).populate('postedBy');
     res.status(201).json({
       success: true,
-      message: "Successfuly got posts",
+      message: 'Successfuly got posts',
       data: posts,
     });
   } catch (error) {
@@ -56,7 +55,7 @@ const getPosts = async (req: Request, res: Response) => {
 const deletePost = async (req: Request, res: Response) => {
   try {
     const postTitle = req.params.title;
-    const postToDelete = await PostModel.findOne({ title: postTitle }).populate("postedBy");
+    const postToDelete = await PostModel.findOne({ title: postTitle }).populate('postedBy');
 
     if (!postToDelete)
       return res.status(404).json({
@@ -69,13 +68,13 @@ const deletePost = async (req: Request, res: Response) => {
     } else {
       return res.status(401).json({
         success: false,
-        message: "You cannot delete a post that was not posted by you.",
+        message: 'You cannot delete a post that was not posted by you.',
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Post deleted successfully",
+      message: 'Post deleted successfully',
     });
   } catch (error) {
     res.status(500).json({
@@ -89,7 +88,7 @@ const updatePost = async (req: Request, res: Response) => {
   try {
     const postId = req.params.postId;
     const body = req.body;
-    const postToUpdate = await PostModel.findOne({ postId: postId }).populate("postedBy");
+    const postToUpdate = await PostModel.findOne({ postId: postId }).populate('postedBy');
     console.log(req.user);
     console.log(postToUpdate.postedBy.username);
     if (!postToUpdate)
@@ -103,13 +102,13 @@ const updatePost = async (req: Request, res: Response) => {
     } else {
       return res.status(401).json({
         success: false,
-        message: "You cannot update a post that was not posted by you.",
+        message: 'You cannot update a post that was not posted by you.',
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Post updated successfully",
+      message: 'Post updated successfully',
     });
   } catch (error) {
     res.status(500).json({

@@ -1,16 +1,18 @@
-import express from "express";
-import config from "config";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import log from "./utils/logger";
+import express from 'express';
+import config from 'config';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import log from './utils/logger';
 
-import connectToDB from "./utils/database";
+import connectToDB from './utils/database';
 
-const port = config.get<number>("port");
-const host = config.get<string>("host");
-const clientPort = config.get<number>("clientPort");
+const clientHost = config.get<string>('clientHost');
+const serverPort = config.get<number>('serverPort');
 
-declare module "express-serve-static-core" {
+const serverHost = config.get<string>('serverHost');
+const clientPort = config.get<number>('clientPort');
+
+declare module 'express-serve-static-core' {
   interface Request {
     user: string;
   }
@@ -20,18 +22,18 @@ declare module "express-serve-static-core" {
 }
 
 const app = express();
-app.use(cors({ credentials: true, origin: `http://${host}:${clientPort}` }));
+app.use(cors({ credentials: true, origin: `http://${clientHost}:${clientPort}` }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
-import authRouter from "./routes/authRoute";
-app.use("/auth", authRouter);
+import authRouter from './routes/authRoute';
+app.use('/auth', authRouter);
 
-import postRouter from "./routes/postRoute";
-app.use("/post", postRouter);
+import postRouter from './routes/postRoute';
+app.use('/post', postRouter);
 
-app.listen(port, () => {
-  log.info(`Server listening at http://${host}:${port}`);
+app.listen(serverPort, () => {
+  log.info(`Server listening at http://${serverHost}:${serverPort}`);
   connectToDB();
 });

@@ -1,33 +1,34 @@
-import React, { ReactElement, useState, useEffect } from "react";
+import React, { ReactElement, useState, useEffect } from 'react';
 //next
-import { useRouter } from "next/router";
-import { useFormik } from "formik";
+import { useRouter } from 'next/router';
+import { useFormik } from 'formik';
 //yup
-import * as yup from "yup";
+import * as yup from 'yup';
 //api
-import { updatePost } from "../../api";
-import { IPost, IUser } from "../../interfaces";
+import { updatePost } from '../../api';
+import { IPost, IUser } from '../../interfaces';
 //material ui
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      height: "90vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+      height: '90vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     form: {
-      display: "flex",
-      flexDirection: "column",
-      width: "300px",
+      display: 'flex',
+      flexDirection: 'column',
+      width: '300px',
     },
     button: {
-      marginTop: "10px",
+      marginTop: '10px',
     },
   })
 );
@@ -36,8 +37,8 @@ interface Props {
 }
 
 const validationSchema = yup.object({
-  title: yup.string().min(4).max(26).required("title is required"),
-  body: yup.string().min(15).max(700).required("body is required"),
+  title: yup.string().min(4).max(26).required('title is required'),
+  body: yup.string().min(15).max(700).required('body is required'),
 });
 
 export default function Update({ user }: Props): ReactElement {
@@ -45,17 +46,17 @@ export default function Update({ user }: Props): ReactElement {
   const router = useRouter();
   const postId = router.query.postId!;
 
-  const [message, setMessage] = useState<{ active: boolean; message: string }>({ active: false, message: "" });
+  const [message, setMessage] = useState<{ active: boolean; message: string }>({ active: false, message: '' });
   const formik = useFormik({
     initialValues: {
-      title: "",
-      body: "",
+      title: '',
+      body: '',
     },
     onSubmit: async (values: IPost) => {
-      if (user.status === false) return setMessage({ active: true, message: "You need to login to update a post" });
+      if (user.status === false) return setMessage({ active: true, message: 'You need to login to update a post' });
       const data = await updatePost(values, postId);
       if (data.success) {
-        router.push("/");
+        router.push('/');
       } else {
         setMessage({ active: true, message: data.message });
       }

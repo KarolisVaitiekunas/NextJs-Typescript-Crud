@@ -1,16 +1,17 @@
-import { Request, Response, NextFunction } from "express";
-import config from "config";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import UserModel from "../models/User";
+import { Request, Response, NextFunction } from 'express';
+import config from 'config';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import UserModel from '../models/User';
 
-const secret = config.get<string>("secret");
+const secret = config.get<string>('secret');
 
 /**
  * Get's cookie from request, if it validates it will call next() to allow to access the route.
  */
 const validateToken = async (req: Request, res: Response, next: NextFunction) => {
-  const accessToken = req.cookies["access-token"];
-  if (!accessToken) return res.status(401).json({ success: false, message: "User not Authenticated" });
+  console.log('IS LOGGED', req.hostname);
+  const accessToken = req.cookies['access-token'];
+  if (!accessToken) return res.status(401).json({ success: false, message: 'User not Authenticated' });
 
   try {
     const decodedUser: any = jwt.verify(accessToken, secret); //using any is not a perfect solution since you lose type checking
@@ -20,7 +21,7 @@ const validateToken = async (req: Request, res: Response, next: NextFunction) =>
     req.user = user.username;
     return next();
   } catch (error) {
-    res.status(404).json({ success: false, message: "Invalid token" });
+    res.status(404).json({ success: false, message: 'Invalid token' });
   }
 };
 
